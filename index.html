@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infobytes Solutions Wallpaper</title>
+    <title>Infobytes Solutions - Pro Edition</title>
     <style>
         :root {
-            --bg-color: #000000;
-            --accent-blue: #3f51b5;
-            --transition-speed: 0.5s;
+            /* Palette updated to Deep Dark Blues */
+            --bg-dark: #020617;
+            --navy-deep: #0f172a;
+            --accent-blue: #1e40af;
+            --electric-blue: #3b82f6;
+            --transition-speed: 0.6s;
         }
 
         body, html {
@@ -16,111 +19,151 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
-        /* Ambient Background Animation */
+        /* Animated Gradient Background */
+        .bg-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, var(--navy-deep) 0%, var(--bg-dark) 100%);
+            z-index: 0;
+        }
+
+        /* Floating Particles Canvas */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Subtle Light Pulse */
         .glow-overlay {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(63, 81, 181, 0.1) 0%, transparent 70%);
-            animation: breathe 8s ease-in-out infinite;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+            animation: pulse 10s ease-in-out infinite;
             pointer-events: none;
+            z-index: 2;
         }
 
-        @keyframes breathe {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Logo Container */
+        /* Logo Container with Hover Effect */
         .container {
             display: flex;
             align-items: center;
-            gap: 10px;
-            z-index: 1;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: fadeIn 2s ease-out;
+            gap: 0px;
+            z-index: 10;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: slideUp 1.5s ease-out;
+            cursor: pointer;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .container:hover {
+            transform: scale(1.05);
         }
 
-        /* Lottie Canvas Styling */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         #globe-canvas {
-            width: clamp(150px, 25vw, 350px);
-            height: clamp(150px, 25vw, 350px);
-            filter: drop-shadow(0 0 25px rgba(63, 81, 181, 0.5));
+            width: clamp(200px, 30vw, 400px);
+            height: clamp(200px, 30vw, 400px);
+            filter: drop-shadow(0 0 30px rgba(30, 64, 175, 0.4));
         }
 
+        /* Enhanced Text Styling */
         .text-brand {
-            color: white;
-            font-weight: 700;
-            line-height: 1.1;
-            font-size: clamp(28px, 4.5vw, 65px);
+            color: #f8fafc;
+            font-weight: 800;
+            line-height: 0.95;
+            font-size: clamp(32px, 5vw, 75px);
             user-select: none;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            margin-left: -20px; /* Pulls text slightly closer to the globe */
+            margin-left: -30px;
+            letter-spacing: -1px;
+            position: relative;
+            background: linear-gradient(to right, #ffffff 20%, #3b82f6 50%, #ffffff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 6s linear infinite;
         }
 
-        /* UI Controls */
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Control Panel Styling */
         .controls {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             display: flex;
-            gap: 10px;
-            transition: opacity var(--transition-speed), visibility var(--transition-speed);
+            gap: 12px;
             z-index: 100;
+            transition: all 0.5s;
         }
 
         .controls.hidden {
             opacity: 0;
-            visibility: hidden;
+            transform: translateY(20px);
+            pointer-events: none;
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-            padding: 10px 18px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #94a3b8;
+            padding: 12px 20px;
             cursor: pointer;
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
-            transition: all 0.2s;
-            font-size: 12px;
+            border-radius: 12px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s;
+            font-size: 11px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--accent-blue);
             color: white;
-            transform: translateY(-2px);
+            border-color: var(--electric-blue);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         }
 
     </style>
 </head>
 <body>
 
+    <div class="bg-gradient"></div>
+    <canvas id="particle-canvas"></canvas>
     <div class="glow-overlay"></div>
 
     <div class="controls" id="ui-controls">
         <button class="btn" onclick="toggleFullScreen()">⛶ Fullscreen</button>
-        <button class="btn" onclick="minimizeLogo()">− Toggle Size</button>
+        <button class="btn" onclick="minimizeLogo()">⚡ Focus Mode</button>
     </div>
 
     <div class="container" id="main-logo">
         <canvas id="globe-canvas"></canvas>
-
         <div class="text-brand">
             Infobytes<br>Solutions Inc.
         </div>
@@ -133,47 +176,80 @@
             autoplay: true,
             loop: true,
             canvas: document.getElementById("globe-canvas"),
-            src: "https://lottie.host/4514e452-718d-4a4f-af8b-5ff3cfe220a2/TYBen5Nqyw.lottie",
+            src: "https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie",
         });
     </script>
 
     <script>
+        // Particle Background Logic
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for(let i = 0; i < 60; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: Math.random() * 0.5 - 0.25,
+                    speedY: Math.random() * 0.5 - 0.25,
+                    opacity: Math.random() * 0.5
+                });
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if(p.x > canvas.width) p.x = 0;
+                if(p.y > canvas.height) p.y = 0;
+                ctx.fillStyle = `rgba(59, 130, 246, ${p.opacity})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', initParticles);
+        initParticles();
+        animateParticles();
+
+        // UI Controls
         const ui = document.getElementById('ui-controls');
         const logo = document.getElementById('main-logo');
         let idleTimer;
 
-        // UI Auto-hide logic
         function resetTimer() {
             ui.classList.remove('hidden');
             clearTimeout(idleTimer);
             idleTimer = setTimeout(() => {
                 ui.classList.add('hidden');
-            }, 3000);
+            }, 4000);
         }
 
         document.addEventListener('mousemove', resetTimer);
-        document.addEventListener('touchstart', resetTimer);
         resetTimer();
 
-        // Fullscreen toggle
         window.toggleFullScreen = function() {
             if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error(err);
-                });
+                document.documentElement.requestFullscreen();
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
+                document.exitFullscreen();
             }
         }
 
-        // Minimize/Maximize toggle
         let isMinimized = false;
         window.minimizeLogo = function() {
             if (!isMinimized) {
-                logo.style.transform = 'scale(0.3) translate(-130%, -130%)';
-                logo.style.opacity = '0.5';
+                logo.style.transform = 'scale(0.4) translate(-100%, -100%)';
+                logo.style.opacity = '0.4';
             } else {
                 logo.style.transform = 'scale(1) translate(0, 0)';
                 logo.style.opacity = '1';
@@ -183,8 +259,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
